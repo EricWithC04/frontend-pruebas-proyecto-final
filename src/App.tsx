@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import './App.css'
 import pythonIcon from './assets/python.png'
 import csvIcon from './assets/csv.png'
@@ -34,7 +35,20 @@ const exampleData: Array<UnitData> = [
   },
 ]
 
+const exampleThemesData = [
+  "¿Qué es la ciencia de datos?",
+  "¿Qué es Python?",
+  "Sintaxis, semántica y reglas de Python.",
+  "Debugging en Python.",
+  "Entornos virtuales y librerías de python.",
+  "Desarrollo de pensamiento algorítmico mediante actividades prácticas",
+  "Introducción a la librería NumPy de Python.",
+]
+
 function App() {
+
+  const [expandenThemes, setExpandenThemes] = useState(false)
+
   return (
     <>
       <div className="unit-card-container">
@@ -47,6 +61,16 @@ function App() {
               description={data.description}
             />
           ))
+        }
+      </div>
+      <button onClick={() => setExpandenThemes(!expandenThemes)}>Ver Temas</button>
+      <div className='theme-container'>
+        {
+          exampleThemesData.map((data) => (
+            <div className={`theme-item ${expandenThemes ? 'expanded' : ''}`}>
+              <p>{data}</p>
+            </div>
+          )) 
         }
       </div>
     </>
