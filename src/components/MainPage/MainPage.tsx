@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import pythonIcon from '../../assets/python.png'
 import csvIcon from '../../assets/csv.png'
 import algorithmIcon from '../../assets/algorithm.png'
 import mlIcon from '../../assets/machine-learning.png'
 import UnitCard from '../UnitCard/UnitCard'
+import allThemesPerUnit from '../../data/themesPerUnit'
 
 type UnitData = {
     icon: string
@@ -39,42 +41,9 @@ const exampleData: Array<UnitData> = [
     },
 ]
 
-const allThemesPerUnit: any = {
-    "python": [
-        "¿Qué es la ciencia de datos?",
-        "¿Qué es Python?",
-        "Sintaxis, semántica y reglas de Python.",
-        "Debugging en Python.",
-        "Entornos virtuales y librerías de python.",
-        "Desarrollo de pensamiento algorítmico mediante actividades prácticas",
-        "Introducción a la librería NumPy de Python.",
-    ],
-    "csv": [
-        "Limpieza y estructura de los datos.",
-        "Obtención de datos a partir de archivos CSV.",
-        "Obtención de datos a partir de bases de datos SQL.",
-        "Introducción a Pandas para ciencia de datos.",
-        "Introducción a Matplotlib para gráficos estadísticos.",
-    ],
-    "algorithm": [
-        "¿Qué es “Optimizar” un algoritmo?",
-        "¿Qué es la complejidad algorítmica?",
-        "Algoritmos más utilizados.",
-        "Introducción al análisis algorítmico.",
-        "Introducción a la notación asintótica.",
-        "Iteración de soluciones aplicando pensamiento algorítmico optimizado.",
-    ],
-    "ml": [
-        "Fundamentales del Aprendizaje Automático.",
-        "Preprocesamiento de Datos para Aprendizaje Automático.",
-        "Modelos Básicos de Aprendizaje Automático.",
-        "Evaluación de Modelos de Aprendizaje Automático",
-        "Aplicaciones Prácticas del Aprendizaje Automático",
-        "Herramientas y Librerías de Aprendizaje Automático en Python",
-    ]
-}
-
 const MainPage = () => {
+
+    const navigate = useNavigate()
 
     const [expandedThemes, setExpandedThemes] = useState(false)
     const [unit, setUnit] = useState('python')
@@ -98,9 +67,12 @@ const MainPage = () => {
             </div>
             <div className='theme-container'>
                 {
-                    allThemesPerUnit.hasOwnProperty(unit) ? allThemesPerUnit[unit].map((data: string) => (
-                        <div className={`theme-item ${expandedThemes ? 'expanded' : ''}`}>
-                            <p>{data}</p>
+                    allThemesPerUnit.hasOwnProperty(unit) ? allThemesPerUnit[unit].map((data: any) => (
+                        <div 
+                            className={`theme-item ${expandedThemes ? 'expanded' : ''}`} 
+                            onClick={() => navigate(`/theme/${data.id}`)}
+                        >
+                            <p>{data.title}</p>
                         </div>
                     )) : null
                 }

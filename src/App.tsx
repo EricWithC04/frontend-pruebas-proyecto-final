@@ -9,7 +9,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route path="/example" element={<ThemePage />} />
+          <Route path="/theme/:idTheme" element={<ThemePage />} />
         </Routes>
       </BrowserRouter>
     </>
