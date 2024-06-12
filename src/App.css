@@ -11,31 +11,3 @@
   gap: 10px;
   margin-bottom: 30px;
 }
-
-.theme-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.theme-item { 
-  background-color: #212121;
-  height: 0;
-  width: 45%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 15px;
-  overflow: hidden;
-  transition: height 0.8s ease, outline 0.8s ease;
-}
-
-.theme-item:hover {
-  cursor: pointer;
-  background-color: #3a3a3a;
-}
-
-.theme-item.expanded {
-  height: 40px;
-  outline: 3px solid #a1a1a1;
-}

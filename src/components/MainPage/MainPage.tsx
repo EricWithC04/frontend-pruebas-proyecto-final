@@ -65,11 +65,11 @@ const MainPage = () => {
                     ))
                 }
             </div>
-            <div className='theme-container'>
+            <div className='item-button-container'>
                 {
                     allThemesPerUnit.hasOwnProperty(unit) ? allThemesPerUnit[unit].map((data: any) => (
                         <div 
-                            className={`theme-item ${expandedThemes ? 'expanded' : ''}`} 
+                            className={`item-button ${expandedThemes ? 'item-button-active' : 'item-button-hidden'}`} 
                             onClick={() => navigate(`/theme/${data.id}`)}
                         >
                             <p>{data.title}</p>

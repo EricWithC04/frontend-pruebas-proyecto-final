@@ -61,12 +61,12 @@
     width: 350px
 }
 
-.theme-item-description {
+.exercise-description {
     outline: 3px solid #a1a1a1;
     background-color: #a1a1a1;
     color: black;
 }
 
-.theme-item-description button {
+.exercise-description button {
     align-self: flex-end;
 }

@@ -10,12 +10,12 @@ const ThemePage = () => {
 
     const navigate = useNavigate()
 
-    const [details, setDetails] = useState('')
+    const [themeTitle, setThemeTitle] = useState('')
 
     useEffect(() => {
         Object.keys(allThemesPerUnit).forEach((unit: any) => {
             allThemesPerUnit[unit].forEach((theme: any) => {
-                if (theme.id == idTheme) setDetails(theme.title)
+                if (theme.id == idTheme) setThemeTitle(theme.title)
             })
         })
     }, [])
@@ -73,12 +73,12 @@ const ThemePage = () => {
         setExampleExercises(newExampleExercises)
     }
 
-    if (details.length) {
+    if (themeTitle.length) {
         return (
             <div className='details-container'>
                 <div className='theme-container w-70'>
                     <button onClick={() => navigate(-1)}>Back</button>
-                    <h1>{details}</h1>
+                    <h1>{themeTitle}</h1>
                     <p className='theme-description w-80'>
                         Python es un lenguaje de programación potente y fácil de aprender. Tiene estructuras de datos de alto nivel eficientes y un simple pero efectivo sistema de programación orientado a objetos. La elegante sintaxis de Python y su tipado dinámico, junto a su naturaleza interpretada lo convierten en un lenguaje ideal para scripting y desarrollo rápido de aplicaciones en muchas áreas, para la mayoría de plataformas
                     </p>
@@ -98,14 +98,14 @@ const ThemePage = () => {
                             <li>5 - Lorem ipsum dolor sit amet.</li>
                         </ul>
                     </p>
-                    <div className='theme-container'>
+                    <div className='item-button-container'>
                     {
                         exampleExercises.map((exercise: any) => (
                                 <div className='exercise-item-container'>
-                                    <div className='theme-item expanded exercise w-100' onClick={() => handleExtendExercise(exercise.id)}>
+                                    <div className='item-button item-button-outline exercise w-100' onClick={() => handleExtendExercise(exercise.id)}>
                                         <p>{exercise.name}</p>
                                     </div>
-                                    <div className={`theme-item-description w-100 ${exercise.extended ? 'yes-display' : 'no-display'}`}>
+                                    <div className={`exercise-description w-100 ${exercise.extended ? 'yes-display' : 'no-display'}`}>
                                         <p>{exercise.description}</p>
                                         <button>Ir al Ejercicio</button>
                                     </div>
