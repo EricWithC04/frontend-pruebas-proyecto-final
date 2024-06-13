@@ -4,7 +4,7 @@ import allThemesPerUnit from '../../data/themesPerUnit'
 import pythonIcon from '../../assets/python.png'
 import exampleExercises from '../../data/exampleExercises'
 import './ThemePage.css'
-import { ExerciseItem } from '../../data/types'
+import ExerciseList from '../ExerciseList/ExerciseList'
 
 const ThemePage = () => {
 
@@ -13,7 +13,6 @@ const ThemePage = () => {
     const navigate = useNavigate()
 
     const [themeTitle, setThemeTitle] = useState('')
-    const [themeExercises, setThemeExercises] = useState<Array<ExerciseItem>>([])
 
     useEffect(() => {
         Object.keys(allThemesPerUnit).forEach((unit: any) => {
@@ -22,25 +21,6 @@ const ThemePage = () => {
             })
         })
     }, [])
-
-    useEffect(() => {
-        const exercisesItems: Array<ExerciseItem> = exampleExercises.map((exercise) => {
-            return {
-                ...exercise,
-                extended: false
-            }
-        })
-
-        setThemeExercises(exercisesItems)
-    }, [])
-
-    const handleExtendExercise = (id: number) => {
-        const newExampleExercises = themeExercises.map((exercise) => {
-            if (exercise.id == id) exercise.extended = !exercise.extended
-            return exercise
-        })
-        setThemeExercises(newExampleExercises)
-    }
 
     if (themeTitle.length) {
         return (
@@ -67,21 +47,9 @@ const ThemePage = () => {
                             <li>5 - Lorem ipsum dolor sit amet.</li>
                         </ul>
                     </p>
-                    <div className='item-button-container'>
-                    {
-                        themeExercises.map((exercise: ExerciseItem) => (
-                                <div className='exercise-item-container'>
-                                    <div className='item-button item-button-outline exercise w-100' onClick={() => handleExtendExercise(exercise.id)}>
-                                        <p>{exercise.name}</p>
-                                    </div>
-                                    <div className={`exercise-description w-100 ${exercise.extended ? 'yes-display' : 'no-display'}`}>
-                                        <p>{exercise.description}</p>
-                                        <button>Ir al Ejercicio</button>
-                                    </div>
-                                </div>
-                            ))    
-                        }
-                    </div>
+                    <ExerciseList 
+                        exampleExercises={exampleExercises}
+                    />
                 </div>
                 <div className='details-sidebar w-20'>
                     <div className='theme-icon w-100'>
