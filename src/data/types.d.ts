@@ -10,3 +10,8 @@ export type ExerciseItem = {
     description: string,
     extended: boolean
 }
+
+export type PythonFileType = {
+    name: string,
+    code: string
+}

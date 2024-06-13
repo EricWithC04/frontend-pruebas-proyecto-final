@@ -3,6 +3,7 @@ import MainPage from './components/MainPage/MainPage'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import ThemePage from './components/ThemePage/ThemePage'
 import MarkDownTest from './components/MarkDownTest/MarkDownTest'
+import TextEditor from './components/TextEditorPage/TextEditorPage'
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/theme/:idTheme" element={<ThemePage />} />
-          <Route path='/markdown' element={<MarkDownTest></MarkDownTest>}/>
+          <Route path='/markdown' element={<MarkDownTest />}/>
+          <Route path='/editor' element={<TextEditor />}/>
         </Routes>
       </BrowserRouter>
     </>
