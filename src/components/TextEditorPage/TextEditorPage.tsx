@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Editor from '@monaco-editor/react'
 import { PythonFileType } from '../../data/types';
+import exampleCodeExercise from '../../data/exampleCodeExercise';
 
 import './TextEditorPage.css'
 
@@ -10,6 +11,14 @@ const TextEditor = () => {
     const [files, setFiles] = useState<Array<PythonFileType>>([{ name: 'app.py', code: '' }])
     const [currentFile, setCurrentFile] = useState(0)
     const [nameNewFile, setNameNewFile] = useState('')
+
+    useEffect(() => {
+        const chargedExercise: PythonFileType = {
+            ...files[currentFile],
+            code: exampleCodeExercise
+        }
+        setFiles([chargedExercise])
+    }, [])
 
     function handleEditorChange(value: any, event: any) {
         console.log("this is the current value:", value);

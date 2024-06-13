@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import { Exercise, ExerciseItem } from '../../data/types'
+import { useNavigate } from 'react-router-dom'
 
 const ExerciseList = ({ exampleExercises }: { exampleExercises: Exercise[] }) => {
 
-    const [exercises, setExercises] = useState<ExerciseItem[]>([])
+    const navigate = useNavigate()
+    const [exercises, setExercises] = useState<Array<ExerciseItem>>([])
 
     useEffect(() => {
         const newExampleExercises = exampleExercises.map((exercise: Exercise) => {
@@ -34,7 +36,7 @@ const ExerciseList = ({ exampleExercises }: { exampleExercises: Exercise[] }) =>
                         </div>
                         <div className={`exercise-description w-100 ${exercise.extended ? 'yes-display' : 'no-display'}`}>
                             <p>{exercise.description}</p>
-                            <button>Ir al Ejercicio</button>
+                            <button onClick={() => navigate('/editor')}>Ir al Ejercicio</button>
                         </div>
                     </div>
                 ))    
