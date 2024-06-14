@@ -13,7 +13,7 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="/theme/:idTheme" element={<ThemePage />} />
           <Route path='/markdown' element={<MarkDownTest />}/>
-          <Route path='/editor' element={<TextEditor />}/>
+          <Route path='/editor/:idExercise' element={<TextEditor />}/>
         </Routes>
       </BrowserRouter>
     </>

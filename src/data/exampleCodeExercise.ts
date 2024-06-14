@@ -1,4 +1,9 @@
-const exampleCodeExercise = `
+import { CodeExercise } from "./types"
+
+const exampleCodeExercises: Array<CodeExercise> = [
+    {
+        id_exercise: 1,
+        code: `
 def es_entero(valor):
     return isinstance(valor, int)
 
@@ -32,34 +37,65 @@ def es_complejo(valor):
 # Resolver
 
 # Coloca un entero
-print(es_entero(5))         
+print("Change Me")         
 
 # Coloca un flotante
-print(es_flotante(5.0))     
+print("Change Me")     
 
 # Coloca una cadena
-print(es_cadena("Hola"))    
+print("Change Me")    
 
 # Coloca un booleano
-print(es_booleano(True))    
+print("Change Me")    
 
 # Coloca una lista
-print(es_lista([1, 2, 3]))  
+print("Change Me")  
 
 # Coloca una tupla
-print(es_tupla((1, 2, 3)))  
+print("Change Me")  
 
 # Coloca un diccionario
-print(es_diccionario({'a': 1, 'b': 2}))  
+print("Change Me")  
 
 # Coloca un conjunto
-print(es_conjunto({1, 2, 3}))  
+print("Change Me")  
 
 # Coloca un rango
-print(es_rango(range(5)))  
+print("Change Me")  
 
 # Coloca un numero complejo
-print(es_complejo(1 + 2j))  
+print("Change Me")  
 `
+    },
+    {
+        id_exercise: 2,
+        code: `
+def exercise_1(valor):
+    return valor == {
+        'name': 'Alejandro',
+        'age': 22,
+        'job': 'Engineer'
+    }
 
-export default exampleCodeExercise
+def exercise_2(valor):
+    return valor == [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+# Resolver
+
+# Coloca un Diccionario con las siguientes propiedades:
+# name, que debe ser Alejandro
+# age, que debe ser 22
+# job, que debe ser Engineer
+print(exercise_1("Change Me"))
+
+# Coloca una lista con numeros del 1 al 10
+print(exercise_2("Change Me"))
+`
+    },
+    {
+        id_exercise: 3,
+        code: ''
+    }
+]
+
+export default exampleCodeExercises

@@ -2,6 +2,8 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import exampleMarkDown from '../../data/exampleMarkDown'
 import './MarkDownTest.css'
+import ExerciseList from '../ExerciseList/ExerciseList'
+import exampleExercises from '../../data/exampleExercises'
 
 const MarkDownTest = () => {
     return (
@@ -17,6 +19,9 @@ const MarkDownTest = () => {
             >
                 {exampleMarkDown}
             </ReactMarkdown>
+            <ExerciseList 
+                exampleExercises={exampleExercises}
+            />
         </div>
     )
 }

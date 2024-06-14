@@ -1,11 +1,18 @@
 import { useRef, useState, useEffect } from 'react';
 import Editor from '@monaco-editor/react'
 import { PythonFileType } from '../../data/types';
-import exampleCodeExercise from '../../data/exampleCodeExercise';
+import exampleCodeExercises from '../../data/exampleCodeExercise';
 
 import './TextEditorPage.css'
+import { useParams } from 'react-router-dom';
 
 const TextEditor = () => {
+
+    const { idExercise } = useParams()
+
+    if (!idExercise) {
+        throw new Error('No se ha proporcionado el id del ejercicio')
+    }
 
     const monacoRef = useRef(null)
     const [files, setFiles] = useState<Array<PythonFileType>>([{ name: 'app.py', code: '' }])
@@ -13,9 +20,11 @@ const TextEditor = () => {
     const [nameNewFile, setNameNewFile] = useState('')
 
     useEffect(() => {
+        const browseExercise: string = exampleCodeExercises.find(exercise => exercise.id_exercise === parseInt(idExercise))?.code || ''
+
         const chargedExercise: PythonFileType = {
             ...files[currentFile],
-            code: exampleCodeExercise
+            code: browseExercise
         }
         setFiles([chargedExercise])
     }, [])

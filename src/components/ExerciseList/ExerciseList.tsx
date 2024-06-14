@@ -36,7 +36,7 @@ const ExerciseList = ({ exampleExercises }: { exampleExercises: Exercise[] }) =>
                         </div>
                         <div className={`exercise-description w-100 ${exercise.extended ? 'yes-display' : 'no-display'}`}>
                             <p>{exercise.description}</p>
-                            <button onClick={() => navigate('/editor')}>Ir al Ejercicio</button>
+                            <button onClick={() => navigate(`/editor/${exercise.id}`)}>Ir al Ejercicio</button>
                         </div>
                     </div>
                 ))    
