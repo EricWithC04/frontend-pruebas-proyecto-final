@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Editor from '@monaco-editor/react'
 import { PythonFileType } from '../../data/types';
 import exampleCodeExercises from '../../data/exampleCodeExercise';
@@ -14,7 +14,6 @@ const TextEditor = () => {
         throw new Error('No se ha proporcionado el id del ejercicio')
     }
 
-    const monacoRef = useRef(null)
     const [files, setFiles] = useState<Array<PythonFileType>>([{ name: 'app.py', code: '' }])
     const [currentFile, setCurrentFile] = useState(0)
     const [nameNewFile, setNameNewFile] = useState('')
@@ -30,22 +29,8 @@ const TextEditor = () => {
     }, [])
 
     function handleEditorChange(value: any, event: any) {
-        console.log("this is the current value:", value);
         const fileWithChanges = files.map((file, index) => index === currentFile ? { ...file, code: value } : file)
         setFiles(fileWithChanges)
-    }
-
-    function handleEditorDidMount(editor: any, monaco: any) {
-
-    }
-
-    function handleEditorWillMount(monaco: any) {
-        console.log('beforeMount: the monaco instance:', monaco);
-    }
-
-    function handleEditorValidation(markers: any) {
-        // model markers
-        // markers.forEach(marker => console.log('onValidate:', marker.message));
     }
 
     const handleCreateNewFile = () => {
@@ -67,7 +52,7 @@ const TextEditor = () => {
     }
 
     function handleExecuteCode() {
-        fetch('http://localhost:3000/execute', {
+        fetch('http://localhost:3000/execute/fastapi', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -76,10 +61,13 @@ const TextEditor = () => {
                 code: files[currentFile].code
             })
         })
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .catch(err => console.error(err))
     }
 
     const handleLintCode = () => {
-        fetch('http://localhost:3000/lint-python', {
+        fetch('http://localhost:3000/lint-fastapi', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -127,9 +115,6 @@ const TextEditor = () => {
                     width="90vw"
                     defaultLanguage='python'
                     theme='vs-dark'
-                    onMount={handleEditorDidMount}
-                    beforeMount={handleEditorWillMount}
-                    onValidate={handleEditorValidation}
                     onChange={handleEditorChange}
                     value={files[currentFile].code}
                 />
