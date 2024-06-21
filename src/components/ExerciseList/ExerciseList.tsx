@@ -2,23 +2,28 @@ import { useState, useEffect } from 'react'
 import { Exercise, ExerciseItem } from '../../data/types'
 import { useNavigate } from 'react-router-dom'
 
-const ExerciseList = ({ exampleExercises }: { exampleExercises: Exercise[] }) => {
+const ExerciseList = ({ idMarkdown }: { idMarkdown: number }) => {
 
     const navigate = useNavigate()
     const [exercises, setExercises] = useState<Array<ExerciseItem>>([])
 
     useEffect(() => {
-        const newExampleExercises = exampleExercises.map((exercise: Exercise) => {
-            return {
-                ...exercise,
-                extended: false
-            }
-        })
-        setExercises(newExampleExercises)
+        fetch(`http://localhost:3001/theme/${idMarkdown}`)
+            .then(res => res.json())
+            .then(data => {
+                const newExampleExercises = data.exercises.map((exercise: Exercise) => {
+                    return {
+                        ...exercise,
+                        extended: false
+                    }
+                })
+                setExercises(newExampleExercises)
+            })
+            .catch(err => console.error(err))
     }, [])
 
     const handleExtendExercise = (id: number) => {
-        const newExampleExercises = exercises.map((exercise) => {
+        const newExampleExercises = exercises.map((exercise: ExerciseItem) => {
             if (exercise.id == id) exercise.extended = !exercise.extended
             else exercise.extended = false
             return exercise

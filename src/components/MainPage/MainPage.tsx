@@ -39,7 +39,9 @@ const MainPage = () => {
                         fetchUnits.length ? fetchUnits[selectedUnit].themes.map((data: any) => (
                             <div 
                                 className={`item-button ${expandedThemes ? 'item-button-active' : 'item-button-hidden'}`} 
-                                onClick={() => navigate(`/theme/${data.id}`)}
+                                onClick={() => {
+                                    navigate(`/markdown/${data.id}`)
+                                }}
                             >
                                 <p>{data.name}</p>
                             </div>

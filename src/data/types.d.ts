@@ -1,7 +1,8 @@
 export type Exercise = {
     id: number,
     name: string,
-    description: string
+    description: string,
+    code: string
 }
 
 export type CodeExercise = {
@@ -13,7 +14,8 @@ export type ExerciseItem = {
     id: number,
     name: string,
     description: string,
-    extended: boolean
+    extended: boolean,
+    code: string
 }
 
 export type PythonFileType = {

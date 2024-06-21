@@ -10,6 +10,10 @@ const ThemePage = () => {
 
     const { idTheme } = useParams()
 
+    if (!idTheme) {
+        throw new Error('idTheme is required')
+    }
+
     const navigate = useNavigate()
 
     const [themeTitle, setThemeTitle] = useState('')
@@ -48,7 +52,7 @@ const ThemePage = () => {
                         </ul>
                     </p>
                     <ExerciseList 
-                        exampleExercises={exampleExercises}
+                        idMarkdown={parseInt(idTheme)}
                     />
                 </div>
                 <div className='details-sidebar w-20'>
