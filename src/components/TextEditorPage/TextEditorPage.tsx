@@ -31,7 +31,7 @@ const TextEditor = () => {
     } = useTextEditor()
     
     useEffect(() => {
-        const browseExercise: string = exampleCodeExercises.find(exercise => exercise.id_exercise === parseInt(idExercise))?.code || ''
+        const browseExercise: string = exampleCodeExercises.find(exercise => exercise.id_exercise === parseInt(idExercise))?.code || '# Todavía no hay un ejemplo para este ejercicio'
 
         const chargedExercise: PythonFileType = {
             ...files[currentFile],

@@ -1,47 +1,58 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import UnitCard from '../UnitCard/UnitCard'
-import allThemesPerUnit from '../../data/themesPerUnit'
-import exampleUnitsData from '../../data/units'
 
 const MainPage = () => {
 
     const navigate = useNavigate()
 
     const [expandedThemes, setExpandedThemes] = useState(false)
-    const [unit, setUnit] = useState('python')
+    const [fetchUnits, setFetchUnits] = useState<Array<any>>([])
+    const [selectedUnit, setSelectedUnit] = useState(0)
 
-    return (
-        <>
-            <div className="unit-card-container">
-                {
-                    exampleUnitsData.map((data, index) => (
-                        <UnitCard
-                            key={index}
-                            icon={data.icon}
-                            title={data.title}
-                            description={data.description}
-                            name={data.name}
-                            setUnit={setUnit}
-                            setExpandedThemes={setExpandedThemes}
-                        />
-                    ))
-                }
-            </div>
-            <div className='item-button-container'>
-                {
-                    allThemesPerUnit.hasOwnProperty(unit) ? allThemesPerUnit[unit].map((data: any) => (
-                        <div 
-                            className={`item-button ${expandedThemes ? 'item-button-active' : 'item-button-hidden'}`} 
-                            onClick={() => navigate(`/theme/${data.id}`)}
-                        >
-                            <p>{data.title}</p>
-                        </div>
-                    )) : null
-                }
-            </div>
-        </>
-    )
+    useEffect(() => {
+        fetch('http://localhost:3001/unit')
+            .then(res => res.json())
+            .then(data => setFetchUnits(data))
+            .catch(err => console.error(err))
+    }, [])
+
+    if (fetchUnits.length) {
+        return (
+            <>
+                <div className="unit-card-container">
+                    {
+                        fetchUnits.map((data: any, index: any) => (
+                            <UnitCard
+                                key={index}
+                                icon={data.icon}
+                                title={data.title}
+                                description={data.description}
+                                setExpandedThemes={setExpandedThemes}
+                                setSelectedUnit={() => setSelectedUnit(index)}
+                            />
+                        ))
+                    }
+                </div>
+                <div className='item-button-container'>
+                    {
+                        fetchUnits.length ? fetchUnits[selectedUnit].themes.map((data: any) => (
+                            <div 
+                                className={`item-button ${expandedThemes ? 'item-button-active' : 'item-button-hidden'}`} 
+                                onClick={() => navigate(`/theme/${data.id}`)}
+                            >
+                                <p>{data.name}</p>
+                            </div>
+                        )) : null
+                    }
+                </div>
+            </>
+        )
+    } else {
+        return (
+            <div>Loading...</div>
+        )
+    }
 }
 
 export default MainPage

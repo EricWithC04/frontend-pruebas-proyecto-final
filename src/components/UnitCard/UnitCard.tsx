@@ -4,14 +4,13 @@ type UnitCardProps = {
     icon: string
     title: string
     description: string
-    name: string
-    setUnit: (unit: string) => void
     setExpandedThemes: (expandedThemes: any ) => void
+    setSelectedUnit: () => void
 }
 
-const UnitCard = ({icon, title, description, name, setUnit, setExpandedThemes}: UnitCardProps) => {
+const UnitCard = ({icon, title, description, setExpandedThemes, setSelectedUnit}: UnitCardProps) => {
     return (
-        <div className={styles['unit-card']} onClick={() => {setUnit(name); setExpandedThemes((prev: boolean) => !prev)}}>
+        <div className={styles['unit-card']} onClick={() => {setSelectedUnit(); setExpandedThemes((prev: boolean) => !prev)}}>
             <div className={styles['unit-card-icon']}>
                 <img src={icon} alt="icon" />
             </div>
