@@ -4,3 +4,5 @@ export type UnitData = {
     description: string,
     name: string
 }
+
+declare module 'react-syntax-highlighter'
