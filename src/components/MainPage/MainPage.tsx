@@ -1,10 +1,23 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import UnitCard from '../UnitCard/UnitCard'
+import styles from './MainPage.module.css'
+import { UnitProgressData, UserProgressData } from '../../types'
 
 const MainPage = () => {
 
     const navigate = useNavigate()
+
+    const [userData, setUserData] = useState<UserProgressData>({
+        id: 0,
+        userName: '',
+        email: '',
+        progress: {
+            id: 0,
+            units: []
+        }
+    })
+    const [userUnitsProgress, setUserUnitsProgress] = useState<number>(0)
 
     const [expandedThemes, setExpandedThemes] = useState(false)
     const [fetchUnits, setFetchUnits] = useState<Array<any>>([])
@@ -15,11 +28,34 @@ const MainPage = () => {
             .then(res => res.json())
             .then(data => setFetchUnits(data))
             .catch(err => console.error(err))
+
+        
+        fetch('http://localhost:3001/user/1')
+            .then(res => res.json())
+            .then(data => setUserData(data))
+            .catch(err => console.error(err))
     }, [])
+
+    useEffect(() => {
+        if (userData.progress.units.length) {
+            let progress = 0
+            const valueOfUnits = 100 / userData.progress.units.length            
+            userData.progress.units.forEach((unit: UnitProgressData) => {
+                if (unit.unit_progress.complete) {
+                    progress += valueOfUnits
+                }
+            })
+            console.log(progress);
+            console.log(valueOfUnits);
+            
+            
+            setUserUnitsProgress(progress)
+        }
+    }, [userData])
 
     if (fetchUnits.length) {
         return (
-            <>
+            <div className={styles['main-container']}>
                 <div className="unit-card-container">
                     {
                         fetchUnits.map((data: any, index: any) => (
@@ -48,7 +84,12 @@ const MainPage = () => {
                         )) : null
                     }
                 </div>
-            </>
+                <div className={`${styles['progress-container']}`}>
+                    <div className={`${styles['progress-bar']} w-${userUnitsProgress}`}>
+                        <h6>{userUnitsProgress}%</h6>
+                    </div>
+                </div>
+            </div>
         )
     } else {
         return (
