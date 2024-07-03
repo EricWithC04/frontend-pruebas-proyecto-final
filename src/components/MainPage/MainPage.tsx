@@ -45,10 +45,6 @@ const MainPage = () => {
                     progress += valueOfUnits
                 }
             })
-            console.log(progress);
-            console.log(valueOfUnits);
-            
-            
             setUserUnitsProgress(progress)
         }
     }, [userData])
@@ -58,14 +54,15 @@ const MainPage = () => {
             <div className={styles['main-container']}>
                 <div className="unit-card-container">
                     {
-                        fetchUnits.map((data: any, index: any) => (
+                        fetchUnits.map((data: any) => (
                             <UnitCard
-                                key={index}
+                                key={data.id}
+                                idUnit={data.id}
                                 icon={data.icon}
                                 title={data.title}
                                 description={data.description}
                                 setExpandedThemes={setExpandedThemes}
-                                setSelectedUnit={() => setSelectedUnit(index)}
+                                setSelectedUnit={() => setSelectedUnit(data.id)}
                             />
                         ))
                     }
