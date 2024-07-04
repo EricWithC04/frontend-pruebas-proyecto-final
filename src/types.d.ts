@@ -22,4 +22,9 @@ export type UserProgressData = {
     }
 }
 
+export type ThemeProgressData = {
+    themeId: number
+    complete: boolean
+}
+
 declare module 'react-syntax-highlighter'

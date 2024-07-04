@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import UnitCard from '../UnitCard/UnitCard'
 import styles from './MainPage.module.css'
-import { UnitProgressData, UserProgressData } from '../../types'
+import { ThemeProgressData, UnitProgressData, UserProgressData } from '../../types'
 
 const MainPage = () => {
 
@@ -17,7 +17,11 @@ const MainPage = () => {
             units: []
         }
     })
+
+    const [userThemesProgressData, setUserThemesProgressData] = useState<Array<ThemeProgressData>>([])
+
     const [userUnitsProgress, setUserUnitsProgress] = useState<number>(0)
+    const [userThemesProgress, setUserThemesProgress] = useState<Array<number>>([0, 0, 0, 0])
 
     const [expandedThemes, setExpandedThemes] = useState(false)
     const [fetchUnits, setFetchUnits] = useState<Array<any>>([])
@@ -34,6 +38,11 @@ const MainPage = () => {
             .then(res => res.json())
             .then(data => setUserData(data))
             .catch(err => console.error(err))
+
+        fetch('http://localhost:3001/theme_progress/1')
+            .then(res => res.json())
+            .then(data => setUserThemesProgressData(data))
+            .catch(err => console.error(err))
     }, [])
 
     useEffect(() => {
@@ -48,6 +57,27 @@ const MainPage = () => {
             setUserUnitsProgress(progress)
         }
     }, [userData])
+
+    useEffect(() => {
+        if (userThemesProgressData.length) {
+            const unitsIndexes = [
+                [0, 1, 2, 3, 4, 5, 6, 7],
+                [8, 9, 10, 11, 12],
+                [13, 14, 15, 16, 17, 18],
+                [19, 20, 21, 22, 23, 24],
+            ]
+            
+            let progress = [0, 0, 0, 0]
+            unitsIndexes.forEach((unit: number[], indexOfUnit: number) => {
+                unit.forEach((indexOfTheme: number) => {
+                    if (userThemesProgressData[indexOfTheme].complete) {
+                        progress[indexOfUnit] += 100 / unit.length 
+                    }
+                })
+            })
+            setUserThemesProgress(progress)
+        }
+    }, [userThemesProgressData])
 
     if (fetchUnits.length) {
         return (
@@ -80,6 +110,11 @@ const MainPage = () => {
                             </div>
                         )) : null
                     }
+                    <div className={`${styles['progress-container']} ${styles['progress-theme-container']}`}>
+                        <div className={`${styles['progress-bar']}`} style={{width: `${userThemesProgress[selectedUnit]}%`}}>
+                            <h6>{Math.floor(userThemesProgress[selectedUnit])}%</h6>
+                        </div>
+                    </div>
                 </div>
                 <div className={`${styles['progress-container']}`}>
                     <div className={`${styles['progress-bar']} w-${userUnitsProgress}`}>
