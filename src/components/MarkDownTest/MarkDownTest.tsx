@@ -2,7 +2,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import ExerciseList from '../ExerciseList/ExerciseList'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { dark } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import './MarkDownTest.css'
@@ -14,6 +14,7 @@ SyntaxHighlighter.registerLanguage('python', python)
 const MarkDownTest = () => {
 
     const { idMarkdown } = useParams()
+    const navigate = useNavigate()
 
     if (!idMarkdown) {
         throw new Error('idMarkdown is required')
@@ -27,6 +28,18 @@ const MarkDownTest = () => {
             .then(data => setThemeData(data))
             .catch(err => console.error(err))
     }, [])
+
+    const handleCompleteTheme = () => {
+        fetch(`http://localhost:3001/theme_progress/1/${idMarkdown}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ complete: true })
+        })
+            .then(_res => navigate('/'))
+            .catch(err => console.error(err))
+    }
 
     return (
         <div className='container-markdown w-100 justified-text'>
@@ -62,6 +75,7 @@ const MarkDownTest = () => {
             <ExerciseList
                 idMarkdown={parseInt(idMarkdown)}
             />
+            <button onClick={handleCompleteTheme}>Completar tema</button>
         </div>
     )
 }

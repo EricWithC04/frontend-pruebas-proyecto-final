@@ -62,7 +62,7 @@ const MainPage = () => {
                                 title={data.title}
                                 description={data.description}
                                 setExpandedThemes={setExpandedThemes}
-                                setSelectedUnit={() => setSelectedUnit(data.id)}
+                                setSelectedUnit={() => setSelectedUnit(data.id-1)}
                             />
                         ))
                     }
