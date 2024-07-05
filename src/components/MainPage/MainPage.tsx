@@ -2,23 +2,25 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import UnitCard from '../UnitCard/UnitCard'
 import styles from './MainPage.module.css'
-import { ThemeProgressData, UnitProgressData, UserProgressData } from '../../types'
+import { UserData, UnitProgressData, UserProgressData } from '../../types'
 
 const MainPage = () => {
 
     const navigate = useNavigate()
 
-    const [userData, setUserData] = useState<UserProgressData>({
+    const [userData, setUserData] = useState<UserData>({
         id: 0,
         userName: '',
-        email: '',
-        progress: {
-            id: 0,
-            units: []
-        }
+        email: ''
     })
 
-    const [userThemesProgressData, setUserThemesProgressData] = useState<Array<ThemeProgressData>>([])
+    const [userProgressData, setUserProgressData] = useState<UserProgressData>({
+        id: 0,
+        createdAt: '',
+        updatedAt: '',
+        units: [],
+        themes: []
+    })
 
     const [userUnitsProgress, setUserUnitsProgress] = useState<number>(0)
     const [userThemesProgress, setUserThemesProgress] = useState<Array<number>>([0, 0, 0, 0])
@@ -39,45 +41,45 @@ const MainPage = () => {
             .then(data => setUserData(data))
             .catch(err => console.error(err))
 
-        fetch('http://localhost:3001/theme_progress/1')
+        fetch('http://localhost:3001/progress/1')
             .then(res => res.json())
-            .then(data => setUserThemesProgressData(data))
+            .then(data => setUserProgressData(data[0]))
             .catch(err => console.error(err))
     }, [])
 
     useEffect(() => {
-        if (userData.progress.units.length) {
+        if (userProgressData.id !== 0) {
             let progress = 0
-            const valueOfUnits = 100 / userData.progress.units.length            
-            userData.progress.units.forEach((unit: UnitProgressData) => {
+            const valueOfUnits = 100 / userProgressData.units.length
+            userProgressData.units.forEach((unit: UnitProgressData) => {
                 if (unit.unit_progress.complete) {
                     progress += valueOfUnits
                 }
             })
             setUserUnitsProgress(progress)
         }
-    }, [userData])
+    }, [userProgressData])
 
     useEffect(() => {
-        if (userThemesProgressData.length) {
-            const unitsIndexes = [
+        if (userProgressData.id !== 0) {
+            const themesIndexes = [
                 [0, 1, 2, 3, 4, 5, 6, 7],
                 [8, 9, 10, 11, 12],
                 [13, 14, 15, 16, 17, 18],
                 [19, 20, 21, 22, 23, 24],
             ]
-            
+
             let progress = [0, 0, 0, 0]
-            unitsIndexes.forEach((unit: number[], indexOfUnit: number) => {
-                unit.forEach((indexOfTheme: number) => {
-                    if (userThemesProgressData[indexOfTheme].complete) {
-                        progress[indexOfUnit] += 100 / unit.length 
+            themesIndexes.forEach((themesOfUnit: Array<number>, indexOfUnit: number) => {
+                themesOfUnit.forEach(indexOfTheme => {
+                    if (userProgressData.themes[indexOfTheme].theme_progress.complete) {
+                        progress[indexOfUnit] += 100 / themesOfUnit.length
                     }
                 })
             })
             setUserThemesProgress(progress)
         }
-    }, [userThemesProgressData])
+    }, [userProgressData])
 
     if (fetchUnits.length) {
         return (

@@ -5,6 +5,19 @@ export type UnitData = {
     name: string
 }
 
+export type UserData = {
+    id: number
+    userName: string
+    email: string
+}
+
+export type ThemeProgressData = {
+    id: number
+    theme_progress: {
+        complete: boolean
+    }
+}
+
 export type UnitProgressData = {
     id: number
     unit_progress: {
@@ -14,17 +27,10 @@ export type UnitProgressData = {
 
 export type UserProgressData = {
     id: number
-    userName: string
-    email: string
-    progress: {
-        id: number
-        units: Array<UnitProgressData>
-    }
-}
-
-export type ThemeProgressData = {
-    themeId: number
-    complete: boolean
+    createdAt: any
+    updatedAt: any
+    units: Array<UnitProgressData>
+    themes: Array<ThemeProgressData>
 }
 
 declare module 'react-syntax-highlighter'
