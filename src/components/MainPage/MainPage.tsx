@@ -110,7 +110,7 @@ const MainPage = () => {
                             </div>
                         )) : null
                     }
-                    <div className={`${styles['progress-container']} ${styles['progress-theme-container']}`}>
+                    <div className={`${expandedThemes ? styles['progress-container'] : styles['progress-container-hidden']} ${styles['progress-theme-container']}`}>
                         <div className={`${styles['progress-bar']}`} style={{width: `${userThemesProgress[selectedUnit]}%`}}>
                             <h6>{Math.floor(userThemesProgress[selectedUnit])}%</h6>
                         </div>

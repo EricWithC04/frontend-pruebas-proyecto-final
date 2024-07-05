@@ -8,6 +8,11 @@
     outline: 2px solid white
 }
 
+.progress-container-hidden {
+    height: 0;
+    overflow: hidden;
+}
+
 .progress-bar {
     height: 100%;
     background-color: #a1a1a1;
