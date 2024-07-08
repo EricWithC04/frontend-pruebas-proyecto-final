@@ -1,15 +1,50 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './EvaluationForm.module.css'
 import { useNavigate } from 'react-router-dom'
 
-const EvaluationForm = () => {
+const EvaluationForm = ({ idEvaluation }: { idEvaluation: number }) => {
 
     const navigate = useNavigate()
 
-    const handleSumbitForm = (event: React.FormEvent<HTMLFormElement>) => {
+    const [answers, setAnswers] = useState<Array<boolean>>([])
+
+    const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        
-        navigate('/')
+
+        fetch('http://localhost:3001/evaluation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                answers
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                alert(`Has ${data.approved ? 'aprobado' : 'reprobado'} la evaluación \n Tu calificación es: ${data.points}`)
+
+                if (data.approved) {
+                    fetch(`http://localhost:3001/theme_progress/1/${idEvaluation}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ complete: true })
+                    })
+                        .then(_res => navigate('/'))
+                        .catch(err => console.error(err))
+                } else {
+                    navigate('/')
+                }
+            })
+            .catch(err => console.error(err))
+    }
+
+    const handleAnswerChange = (position: number, value: boolean) => {
+        const newAnswers = [...answers]
+        newAnswers[position] = value
+        setAnswers(newAnswers)
     }
 
     const questions = [
@@ -61,7 +96,7 @@ const EvaluationForm = () => {
     ]
 
     return (
-        <form onSubmit={handleSumbitForm} className={`${styles['evaluation-form']}`}>
+        <form onSubmit={handleSubmitForm} className={`${styles['evaluation-form']}`}>
             <legend>Evaluación del Tema</legend>
             {
                 questions.map((question, index: number) => (
@@ -70,7 +105,7 @@ const EvaluationForm = () => {
                         <div>
                             {question.answers.map((answer, indexOfAnswer: number) => (
                                 <div key={indexOfAnswer}>
-                                    <input type="radio" name={`question${index+1}`} />
+                                    <input type="radio" name={`question${index+1}`} onClick={() => handleAnswerChange(index, answer.correct)}/>
                                     <label htmlFor={answer.text}>{answer.text}</label>
                                 </div>
                             ))}

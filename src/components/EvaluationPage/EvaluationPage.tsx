@@ -7,13 +7,19 @@ const EvaluationPage = () => {
 
     const { idEvaluation } = useParams()
 
+    if (typeof idEvaluation !== 'string') {
+        throw new Error('idEvaluation is required')
+    }
+
     useEffect(() => {
-        console.log(idEvaluation);
+        
     }, [])
 
     return (
         <div className={`${styles['evaluation-page']}`}>
-            <EvaluationForm></EvaluationForm>
+            <EvaluationForm
+                idEvaluation={parseInt(idEvaluation)}
+            />
         </div>
     )
 }

@@ -30,15 +30,7 @@ const MarkDownTest = () => {
     }, [])
 
     const handleCompleteTheme = () => {
-        fetch(`http://localhost:3001/theme_progress/1/${idMarkdown}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ complete: true })
-        })
-            .then(_res => navigate(`/evaluation/${idMarkdown}`))
-            .catch(err => console.error(err))
+        navigate(`/evaluation/${idMarkdown}`)
     }
 
     return (
