@@ -12,7 +12,7 @@ const EvaluationPage = () => {
     }, [])
 
     return (
-        <div>
+        <div className={`${styles['evaluation-page']}`}>
             <EvaluationForm></EvaluationForm>
         </div>
     )
