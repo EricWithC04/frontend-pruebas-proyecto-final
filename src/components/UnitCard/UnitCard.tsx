@@ -1,3 +1,4 @@
+import { ThemeProgressData } from '../../types'
 import styles from './UnitCard.module.css'
 
 type UnitCardProps = {
@@ -5,23 +6,36 @@ type UnitCardProps = {
     icon: string
     title: string
     description: string
+    completeThemes: Array<ThemeProgressData>
     setExpandedThemes: (expandedThemes: any ) => void
     setSelectedUnit: () => void
 }
 
-const UnitCard = ({idUnit, icon, title, description, setExpandedThemes, setSelectedUnit}: UnitCardProps) => {
+const UnitCard = ({idUnit, icon, title, description, completeThemes, setExpandedThemes, setSelectedUnit}: UnitCardProps) => {
 
     const handleCompleteUnit = () => {
-        fetch(`http://localhost:3001/unit_progress/1/${idUnit}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({complete: true})
-        })
-            .then(_res => window.location.reload())
-            .catch(err => console.error(err))
-        // setExpandedThemes(false)
+        const themesIndexes = [
+            [0, 1, 2, 3, 4, 5, 6, 7],
+            [8, 9, 10, 11, 12],
+            [13, 14, 15, 16, 17, 18],
+            [19, 20, 21, 22, 23, 24],
+        ]
+
+        const completedThemesOfUnit = themesIndexes[idUnit-1].every(themeIndex => completeThemes[themeIndex].theme_progress.complete)
+
+        if (completedThemesOfUnit) {
+            fetch(`http://localhost:3001/unit_progress/1/${idUnit}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({complete: true})
+            })
+                .then(_res => window.location.reload())
+                .catch(err => console.error(err))
+        } else {
+            alert('Faltan temas por completar')
+        }
     }
 
     return (

@@ -93,6 +93,7 @@ const MainPage = () => {
                                 icon={data.icon}
                                 title={data.title}
                                 description={data.description}
+                                completeThemes={userProgressData.themes}
                                 setExpandedThemes={setExpandedThemes}
                                 setSelectedUnit={() => setSelectedUnit(data.id-1)}
                             />
