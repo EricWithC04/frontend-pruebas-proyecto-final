@@ -37,7 +37,7 @@ const MarkDownTest = () => {
             },
             body: JSON.stringify({ complete: true })
         })
-            .then(_res => navigate('/'))
+            .then(_res => navigate(`/evaluation/${idMarkdown}`))
             .catch(err => console.error(err))
     }
 
