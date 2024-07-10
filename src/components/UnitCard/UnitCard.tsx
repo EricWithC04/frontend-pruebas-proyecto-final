@@ -1,4 +1,5 @@
 import { ThemeProgressData } from '../../types'
+import { useNavigate } from 'react-router-dom'
 import styles from './UnitCard.module.css'
 
 type UnitCardProps = {
@@ -12,6 +13,8 @@ type UnitCardProps = {
 }
 
 const UnitCard = ({idUnit, icon, title, description, completeThemes, setExpandedThemes, setSelectedUnit}: UnitCardProps) => {
+
+    const navigate = useNavigate()
 
     const handleCompleteUnit = () => {
         const themesIndexes = [
@@ -31,7 +34,7 @@ const UnitCard = ({idUnit, icon, title, description, completeThemes, setExpanded
                 },
                 body: JSON.stringify({complete: true})
             })
-                .then(_res => window.location.reload())
+                .then(_res => navigate(`/evaluation/${idUnit + 30}`))
                 .catch(err => console.error(err))
         } else {
             alert('Faltan temas por completar')
