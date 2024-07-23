@@ -27,15 +27,7 @@ const UnitCard = ({idUnit, icon, title, description, completeThemes, setExpanded
         const completedThemesOfUnit = themesIndexes[idUnit-1].every(themeIndex => completeThemes[themeIndex].theme_progress.complete)
 
         if (completedThemesOfUnit) {
-            fetch(`http://localhost:3001/unit_progress/1/${idUnit}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({complete: true})
-            })
-                .then(_res => navigate(`/evaluation/${idUnit + 30}`))
-                .catch(err => console.error(err))
+            navigate(`/evaluation/${idUnit + 30}`)
         } else {
             alert('Faltan temas por completar')
         }
